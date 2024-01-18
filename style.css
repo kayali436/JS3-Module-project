@@ -1,3 +1,73 @@
-#root {
-  color: red;
+* {
+  box-sizing: border-box;
+}
+
+.layout {
+  display: grid;
+  grid-template-rows: repeat(25, 37rem);
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 2rem;
+  padding: 13rem;
+  background-color: #eeeef2;
+}
+
+.title-name-season {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+.pic-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
+  color: rgb(242, 246, 247);
+  font-family: monospace;
+}
+img {
+  border-radius: 5px;
+  width: -webkit-fill-available;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+}
+.title {
+  font-size: 21px;
+  font-family: math;
+  padding: 0.9rem;
+  color: rgb(6, 6, 6);
+}
+.title-div {
+  background-color: #f5f9f9;
+  /* transition: margin cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.8s; */
+  display: grid;
+  grid-template-rows: 6rem 10rem 17rem;
+  justify-items: center;
+}
+.title-div:hover {
+  background-color: #fafbfd;
+  border: none;
+  border-radius: 1rem;
+  margin: 1rem;
+  font-size: small;
+}
+h4 {
+  color: rgb(11, 12, 11);
+  padding: 0.3rem;
+  padding-top: 2rem;
+}
+
+.footer-wrapper {
+  display: grid;
+  grid-template-rows: 3rem;
+  background-color: #172b4c;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  color: honeydew;
 }
