@@ -1862,6 +1862,9 @@ function makePageForEpisodes(episodeList) {
     card.appendChild(summary);
   }
 }
+   //search input
+
+
 
 const footerWrapper = createClassAndElement("div", "footer-wrapper");
 document.body.append(footerWrapper);
