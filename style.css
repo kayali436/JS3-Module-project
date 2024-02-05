@@ -2,6 +2,23 @@
   box-sizing: border-box;
 }
 
+a {
+  color: rgb(46, 226, 46)
+}
+
+.headerLayout {
+  display: flex;
+  height: 2rem;
+  align-items: center;
+  gap: 0.8rem;
+  background-color: #172b4c;
+}
+
+.forSVG {
+  width: 1.7rem;
+  color: rgb(46, 226, 46);
+}
+
 .layout {
   display: grid;
   grid-template-rows: repeat(25, 37rem);
@@ -9,7 +26,7 @@
 
   gap: 2rem;
   padding: 13rem;
-  background-color: #eeeef2;
+  background-color: #18182f;
 }
 
 .title-name-season {
@@ -27,7 +44,7 @@
   font-family: monospace;
 }
 img {
-  border-radius: 5px;
+  padding: 0px 4px 0px 4px;
   width: -webkit-fill-available;
 }
 
@@ -35,12 +52,15 @@ img {
   display: grid;
   grid-template-rows: repeat(3, 1fr);
 }
+
 .title {
   font-size: 21px;
   font-family: math;
   padding: 0.9rem;
   color: rgb(6, 6, 6);
+  /* border-style: groove; */
 }
+
 .title-div {
   background-color: #f5f9f9;
   /* transition: margin cubic-bezier(0.6, -0.28, 0.74, 0.05) 0.8s; */
@@ -48,16 +68,21 @@ img {
   grid-template-rows: 6rem 10rem 17rem;
   justify-items: center;
 }
-.title-div:hover {
+
+/* hover effect */
+
+
+/* .title-div:hover {
   background-color: #fafbfd;
   border: none;
   border-radius: 1rem;
   margin: 1rem;
   font-size: small;
-}
+} */
+
 h4 {
   color: rgb(11, 12, 11);
-  padding: 0.3rem;
+  padding: 0.5rem;
   padding-top: 2rem;
 }
 
@@ -70,4 +95,5 @@ h4 {
   bottom: 0;
   width: 100%;
   color: honeydew;
+  align-items: center;
 }
