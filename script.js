@@ -21,7 +21,35 @@ forSVG.addEventListener("click", function () {
 
 episodeSearchField.addEventListener("input", searchFilterEpisodes);
 
+// fetching tvmaze api
 
+async function fetchShows() {
+  return await fetch("https://api.tvmaze.com/shows")
+    .then((response) => response.json())
+    .catch((error) => console.error("Error fetching shows:", error));
+}
+
+async function testShows() {
+  const test = await fetchShows();
+  console.log(test);
+}
+
+testShows();
+
+async function fetchEpisodes(currentShowsID) {
+  try {
+    const res = await fetch(
+      `https://api.tvmaze.com/shows/${currentShowsID}/episodes`
+    );
+    if (!res.ok) {
+      throw new Error("Could not fetch episodes data");
+    } else {
+      return res.json();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 
 
@@ -1895,7 +1923,7 @@ function createClassAndElement(tag, className) {
   return element;
 }
 
-function makePageForEpisodes(episodes) {
+async function makePageForEpisodes(episodes) {
   const rootElem = document.getElementById("root");
   episodes.forEach((episode) => {
     const card = createClassAndElement("div", "title-div");
@@ -1929,8 +1957,8 @@ const footer = createClassAndElement("footer");
 footer.innerHTML = `Data originally sourced by <a href="https://tvmaze.com/" target="_blank">TVMaze.com</a>`;
 footerWrapper.appendChild(footer);
 
-function render() {
-  const allEpisodes = getAllEpisodes();
+async function render() {
+  const allEpisodes = await fetchShows();
   makePageForEpisodes(allEpisodes);
 }
 
