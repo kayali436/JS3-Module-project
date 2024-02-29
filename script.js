@@ -204,4 +204,7 @@ async function render() {
   makePageForEpisodes(allEpisodes);
 }
 
+
 window.onload = render;
+
+window.onload = setup;
