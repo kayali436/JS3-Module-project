@@ -17,6 +17,7 @@ forSVG.addEventListener("click", function () {
   rootDiv.innerHTML = "";
      render()
   showsAndEpisodeSearch.value = "";
+  episodeDropDown.style.display = "None";
   showDropDown.value = "default";
 })
 
@@ -79,7 +80,7 @@ async function dropDownFilter() {
     rootDiv.innerHTML = "";
     const findEpisodesID = accessShows.find((episode) => episode.name === clickEpisode.target.value);
     const fetchAllEpisodes = await fetchEpisodes(findEpisodesID.id)
-    makePageForEpisodes(fetchAllEpisodes);
+    makePageForShows(fetchAllEpisodes)
     showsAndEpisodeSearch.value = "";
     episodeDropDown.innerHTML = "";
     episodeDropDownFilter(fetchAllEpisodes)
@@ -99,9 +100,8 @@ async function episodeDropDownFilter(episodes) {
 
   episodeDropDown.addEventListener("input", function (event) {
     const findEpisode = episodes.filter((episode) => episode.name === event.target.value);
-    console.log(findEpisode);
     rootDiv.innerHTML = "";
-    makePageForEpisodes(findEpisode);
+    makePageForShows(findEpisode)
     // showsAndEpisodeSearch.value = "";
     // episodeDropDownFilter(fetchAllEpisodes)
   })
@@ -118,6 +118,55 @@ function createClassAndElement(tag, className) {
 
 async function makePageForEpisodes(episodes) {
   const rootElem = document.getElementById("root");
+
+  episodes.forEach((episode) => {
+    const card = createClassAndElement("div", "title-div");
+
+    card.addEventListener("click", async () => {
+      const episodeSelected = await fetchEpisodes(episode.id)
+      rootDiv.innerHTML = "";
+      makePageForShows(episodeSelected)
+
+    })
+
+    rootElem.appendChild(card);
+    
+    const seasonName = episode.name;
+    const episodeCode = seasonName;
+    
+    const season = createClassAndElement("h1", "title");
+    season.textContent = episodeCode;
+    card.appendChild(season);
+    
+    const imgElement = createClassAndElement("img");
+    imgElement.setAttribute("src", episode.image.medium);
+    card.appendChild(imgElement);
+    
+    const summary = createClassAndElement("h4");
+    summary.innerHTML = episode.summary;
+    card.appendChild(summary);
+
+    const genres = createClassAndElement("p", "genres");
+    genres.textContent = episode.genres;
+    card.appendChild(genres)
+
+    const status = createClassAndElement("p", "status");
+    status.textContent = `Status: ${episode.status}`;
+    card.appendChild(status);
+
+    const rating = createClassAndElement("p", "rating");
+    rating.textContent = `Rating: ${episode.rating.average}`;
+    card.appendChild(rating);
+
+    const runtime = createClassAndElement("p", "runtime");
+    runtime.textContent = `Runtime: ${episode.runtime}`;
+    card.appendChild(runtime);
+  })
+}
+
+async function makePageForShows(episodes) {
+  const rootElem = document.getElementById("root");
+
   episodes.forEach((episode) => {
     const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
@@ -142,6 +191,7 @@ async function makePageForEpisodes(episodes) {
     card.appendChild(summary);
   })
 }
+
 
 const footerWrapper = createClassAndElement("div", "footer-wrapper");
 document.body.append(footerWrapper);
