@@ -1,12 +1,12 @@
 const headerLayout = document.querySelector(".headerLayout");
-const rootDiv = document.getElementById('root');
+const rootDiv = document.getElementById("root");
 const showsAndEpisodeSearch = document.getElementById("showsAndEpisodeSearch");
-const showDropDown = document.getElementById('showSelect');
-const episodeDropDown = document.getElementById('episodeSelect');
+const showDropDown = document.getElementById("showSelect");
+const episodeDropDown = document.getElementById("episodeSelect");
 const forSVG = document.createElement("div");
 
 let defaultOption = document.createElement("option");
-defaultOption.setAttribute("value", "default")
+defaultOption.setAttribute("value", "default");
 defaultOption.textContent = "Please Select...";
 
 forSVG.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 forSVG">
@@ -15,11 +15,11 @@ forSVG.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox=
 headerLayout.insertAdjacentElement("afterbegin", forSVG);
 forSVG.addEventListener("click", function () {
   rootDiv.innerHTML = "";
-     render()
+  render();
   showsAndEpisodeSearch.value = "";
   episodeDropDown.style.display = "None";
   showDropDown.value = "default";
-})
+});
 
 showsAndEpisodeSearch.addEventListener("input", searchFilterEpisodes);
 
@@ -52,61 +52,68 @@ async function searchFilterEpisodes() {
   // Gets value from keyboard input and turns into lowercase
   const keyboardInput = showsAndEpisodeSearch.value.toLowerCase();
   // Filters through the episodes to find the ones that match the searchfield
-  const filterShows = accessShows.filter((episode) => episode.name.toLowerCase().includes(keyboardInput) || episode.summary.toLowerCase().includes(keyboardInput));
+  const filterShows = accessShows.filter(
+    (episode) =>
+      episode.name.toLowerCase().includes(keyboardInput) ||
+      episode.summary.toLowerCase().includes(keyboardInput)
+  );
   // Clears all the existing cards
   rootDiv.innerHTML = "";
   // Creates new cards based upon the filtered episodes
   makePageForEpisodes(filterShows);
 
-  // Resets the dropdown menu to default 
+  // Resets the dropdown menu to default
   showDropDown.value = "default";
 }
 
 async function dropDownFilter() {
-  showDropDown.appendChild(defaultOption)
+  showDropDown.appendChild(defaultOption);
   const accessShows = await fetchShows();
 
   accessShows.forEach((episode) => {
     const options = document.createElement("option");
     options.textContent = episode.name;
     showDropDown.appendChild(options);
-  })
+  });
   showDropDown.addEventListener("input", async function (clickEpisode) {
     if (clickEpisode.target.value === "default") {
       episodeDropDown.style.display = "none";
       rootDiv.innerHTML = "";
       render();
     } else {
-    rootDiv.innerHTML = "";
-    const findEpisodesID = accessShows.find((episode) => episode.name === clickEpisode.target.value);
-    const fetchAllEpisodes = await fetchEpisodes(findEpisodesID.id)
-    makePageForShows(fetchAllEpisodes)
-    showsAndEpisodeSearch.value = "";
-    episodeDropDown.innerHTML = "";
-    episodeDropDownFilter(fetchAllEpisodes)
-  }
-  })
+      rootDiv.innerHTML = "";
+      const findEpisodesID = accessShows.find(
+        (episode) => episode.name === clickEpisode.target.value
+      );
+      const fetchAllEpisodes = await fetchEpisodes(findEpisodesID.id);
+      makePageForShows(fetchAllEpisodes);
+      showsAndEpisodeSearch.value = "";
+      episodeDropDown.innerHTML = "";
+      episodeDropDownFilter(fetchAllEpisodes);
+    }
+  });
 }
 
 dropDownFilter();
 
 async function episodeDropDownFilter(episodes) {
   episodes.forEach((episode) => {
-    const option = createClassAndElement('option', '');
+    const option = createClassAndElement("option", "");
     option.textContent = episode.name;
     episodeDropDown.appendChild(option);
     episodeDropDown.style.display = "Block";
-  })
+  });
 
   episodeDropDown.addEventListener("input", function (event) {
-    const findEpisode = episodes.filter((episode) => episode.name === event.target.value);
+    const findEpisode = episodes.filter(
+      (episode) => episode.name === event.target.value
+    );
     rootDiv.innerHTML = "";
-    makePageForShows(findEpisode)
+    makePageForShows(findEpisode);
     // showsAndEpisodeSearch.value = "";
     // episodeDropDownFilter(fetchAllEpisodes)
-  })
+  });
 }
-
 
 function createClassAndElement(tag, className) {
   const element = document.createElement(tag);
@@ -123,32 +130,31 @@ async function makePageForEpisodes(episodes) {
     const card = createClassAndElement("div", "title-div");
 
     card.addEventListener("click", async () => {
-      const episodeSelected = await fetchEpisodes(episode.id)
+      const episodeSelected = await fetchEpisodes(episode.id);
       rootDiv.innerHTML = "";
-      makePageForShows(episodeSelected)
-
-    })
+      makePageForShows(episodeSelected);
+    });
 
     rootElem.appendChild(card);
-    
+
     const seasonName = episode.name;
     const episodeCode = seasonName;
-    
+
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
     card.appendChild(season);
-    
+
     const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", episode.image.medium);
     card.appendChild(imgElement);
-    
+
     const summary = createClassAndElement("h4");
     summary.innerHTML = episode.summary;
     card.appendChild(summary);
 
     const genres = createClassAndElement("p", "genres");
     genres.textContent = episode.genres;
-    card.appendChild(genres)
+    card.appendChild(genres);
 
     const status = createClassAndElement("p", "status");
     status.textContent = `Status: ${episode.status}`;
@@ -161,7 +167,7 @@ async function makePageForEpisodes(episodes) {
     const runtime = createClassAndElement("p", "runtime");
     runtime.textContent = `Runtime: ${episode.runtime}`;
     card.appendChild(runtime);
-  })
+  });
 }
 
 async function makePageForShows(episodes) {
@@ -170,28 +176,27 @@ async function makePageForShows(episodes) {
   episodes.forEach((episode) => {
     const card = createClassAndElement("div", "title-div");
     rootElem.appendChild(card);
-    
+
     const seasonName = episode.name;
     const seasonNumber = episode.number;
     const convertSeasonNumberToStr = String(seasonNumber).padStart(2, "0");
-    
+
     const convertSeasonToStr = String(episode.season).padStart(2, "0");
     const episodeCode = `${seasonName} S${convertSeasonToStr}-E${convertSeasonNumberToStr}`;
-    
+
     const season = createClassAndElement("h1", "title");
     season.textContent = episodeCode;
     card.appendChild(season);
-    
+
     const imgElement = createClassAndElement("img");
     imgElement.setAttribute("src", episode.image.medium);
     card.appendChild(imgElement);
-    
+
     const summary = createClassAndElement("h4");
     summary.innerHTML = episode.summary;
     card.appendChild(summary);
-  })
+  });
 }
-
 
 const footerWrapper = createClassAndElement("div", "footer-wrapper");
 document.body.append(footerWrapper);
@@ -204,10 +209,11 @@ async function render() {
   makePageForEpisodes(allEpisodes);
 }
 
-
 window.onload = render;
 
-=======
+// =======
 //this is a comment for Karam
 
 window.onload = setup;
+
+// add another comment for karam
