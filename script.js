@@ -31,7 +31,7 @@ async function fetchShows() {
     .catch((error) => console.error("Error fetching shows:", error));
 }
 
-//this variable is going to count number of fetches
+//this variable is going to count number of fetches by PARTNER @bkarimii
 let number = 0;
 async function fetchEpisodes(currentShowsID) {
   try {
