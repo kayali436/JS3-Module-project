@@ -31,11 +31,16 @@ async function fetchShows() {
     .catch((error) => console.error("Error fetching shows:", error));
 }
 
+//this variable is going to count number of fetches
+let number = 0;
 async function fetchEpisodes(currentShowsID) {
   try {
     const res = await fetch(
       `https://api.tvmaze.com/shows/${currentShowsID}/episodes`
     );
+    // by any fetch variable `number` increases one unite . a  COMMENT FROM PARTNER @bkarimii
+    console.log(number++, "this is number of fetches !");
+
     currentShowsID = null;
     if (!res.ok) {
       throw new Error("Could not fetch episodes data");
