@@ -192,7 +192,6 @@ async function makePageForShows(episodes) {
   })
 }
 
-//push example
 
 const footerWrapper = createClassAndElement("div", "footer-wrapper");
 document.body.append(footerWrapper);
@@ -207,8 +206,5 @@ async function render() {
 
 
 window.onload = render;
-
-=======
-//this is a comment for Karam
 
 window.onload = setup;
