@@ -207,6 +207,4 @@ async function render() {
 
 window.onload = render;
 
-//this is a comment for Karam
-
 window.onload = setup;
